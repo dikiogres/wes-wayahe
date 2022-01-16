@@ -1,3 +1,4 @@
+// Intro that displays logo Java
 package com.TCourse.GameState;
 
 import java.awt.Color;
@@ -8,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import com.TCourse.Main.GamePanel;
 import com.TCourse.Manager.GameStateManager;
+import com.TCourse.Manager.JukeBox;
 import com.TCourse.Manager.Keys;
 
 public class IntroState extends GameState {
@@ -26,9 +28,12 @@ public class IntroState extends GameState {
   }
   
   public void init() {
+    JukeBox.load("/Music/introstate.wav", "intro");
+    JukeBox.setVolume("intro", -10);
     ticks = 0;
     try {
-      logo = ImageIO.read(getClass().getResourceAsStream("/Logo/java_logo.jpg"));
+      JukeBox.play("intro");
+      logo = ImageIO.read(getClass().getResourceAsStream("/Logo/logo.gif"));
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -64,6 +69,7 @@ public class IntroState extends GameState {
   
   public void handleInput() {
     if (Keys.isPressed(Keys.ENTER)) {
+      JukeBox.stop("intro");
       gsm.setState(GameStateManager.MENU);
     }
   }

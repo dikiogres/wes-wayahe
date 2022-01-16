@@ -1,3 +1,4 @@
+// Loads and splits all sprites into array2D
 package com.TCourse.Manager;
 
 import java.awt.Graphics2D;
@@ -7,23 +8,21 @@ import javax.imageio.ImageIO;
 
 public class Content {
 
-  public static BufferedImage[][] MENUBG;
-  public static BufferedImage[][] BAR;
+  public static BufferedImage[][] MENUBG = load("/HUD/menuscreen.gif", 128, 144);
+  public static BufferedImage[][] BAR = load("/HUD/bar.gif", 128, 16);
   
-  public static BufferedImage[][] PLAYER;
-  public static BufferedImage[][] DIAMOND;
-  public static BufferedImage[][] SPARKLE;
-  public static BufferedImage[][] ITEMS;
+  public static BufferedImage[][] PLAYER = load("/Sprites/playersprites.gif", 16, 16);;
+  public static BufferedImage[][] BOOK1 = load("/Sprites/book1.gif", 16, 16);
+  public static BufferedImage[][] BOOK2 = load("/Sprites/book2.gif", 16, 16);
+  public static BufferedImage[][] SPARKLE = load("/Sprites/sparkle.gif", 16, 16);
+  public static BufferedImage[][] ITEMS = load("/Sprites/items.gif", 16, 16);
   
-  public static BufferedImage[][] font;
+  public static BufferedImage[][] font = load("/HUD/font.gif", 8, 8);;
   
   public static BufferedImage[][] load(String s, int w, int h) {
     BufferedImage[][] ret;
     try {
       BufferedImage spritesheet = ImageIO.read(Content.class.getResourceAsStream(s));
-      System.out.println(s);
-      System.out.println(spritesheet.getWidth());
-      System.out.println(spritesheet.getHeight());
       int width = spritesheet.getWidth() / w;
       int height = spritesheet.getHeight() / h;
       ret = new BufferedImage[height][width];

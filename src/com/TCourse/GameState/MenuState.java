@@ -1,23 +1,21 @@
+// MenuState before playing the game
 package com.TCourse.GameState;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
 
-import com.TCourse.Main.GamePanel;
+import com.TCourse.Manager.Content;
 import com.TCourse.Manager.GameStateManager;
+import com.TCourse.Manager.JukeBox;
 import com.TCourse.Manager.Keys;
 
 public class MenuState extends GameState{
   
   private BufferedImage background;
-  private BufferedImage course;
+  private BufferedImage book;
   
   private int currentOption = 0;
-  private Font font = new Font("/Content/StayPixelRegular-EaOxl.ttf", 1, 17);
   
   private String[] options = {
     "START",
@@ -30,8 +28,13 @@ public class MenuState extends GameState{
   
   public void init() {
     try {
-      background = ImageIO.read(getClass().getResourceAsStream("/Content/menuscreen.gif"));
-//      course = ImageIO.read(getClass().getResourceAsStream("/Logo/java_logo.jpg"));
+      background = Content.MENUBG[0][0];
+      book = Content.BOOK1[0][0];
+      JukeBox.load("/SFX/collect_book.wav", "collect");
+      JukeBox.load("/SFX/menuoption.wav", "menuoption");  
+      JukeBox.load("/Music/bgmusic_menu.mp3", "music_menu");
+      JukeBox.setVolume("music_menu", -10);
+      JukeBox.loop("music_menu", 1000, 1000, JukeBox.getFrames("music_menu") - 1000);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -46,29 +49,32 @@ public class MenuState extends GameState{
     
     g.drawImage(background, 0, 0, background.getWidth(), background.getHeight(), null);
     
-    g.setFont(font);
-    g.drawString(options[0], 40, 90);
-    g.drawString(options[1], 40, 110);
+    Content.drawString(g, options[0], 48, 100);
+    Content.drawString(g, options[1], 48, 110);
     
-    if (currentOption == 0) g.drawImage(course, 25, 86, null);
-    else if (currentOption == 1) g.drawImage(course, 25, 96, null);
+    if (currentOption == 0) g.drawImage(book, 25, 96, null);
+    else if (currentOption == 1) g.drawImage(book, 25, 106, null);
     
   }
   
   public void handleInput() {
     if (Keys.isPressed(Keys.DOWN) && currentOption < options.length - 1) {
+      JukeBox.play("menuoption");
       currentOption++;
     }
     if (Keys.isPressed(Keys.UP) && currentOption > 0) {
+      JukeBox.play("menuoption");
       currentOption--;
     }
     if (Keys.isPressed(Keys.ENTER)) {
+      JukeBox.play("collect");
       selectOption();
     }
   }
   
   private void selectOption() {
     if (currentOption == 0) {
+      JukeBox.stop("music_menu");
       gsm.setState(GameStateManager.PLAY);
     }
     if (currentOption == 1) {

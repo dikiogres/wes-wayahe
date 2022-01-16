@@ -1,3 +1,5 @@
+// There are 3 types of items:
+// axe, pickaxe, boat, and key
 package com.TCourse.Entity;
 
 import java.awt.Graphics2D;
@@ -11,8 +13,10 @@ public class Item extends Entity{
   private BufferedImage sprite;
   private int type;
   
-  public static final int BOAT = 0;
-  public static final int AXE = 1;
+  public static final int AXE = 0;
+  public static final int PICKAXE = 1;
+  public static final int BOAT = 2;
+  public static final int KEY = 3;
   
   public Item(TileMap tm) {
     super(tm);
@@ -23,20 +27,32 @@ public class Item extends Entity{
   
   public void setType(int i) {
     type = i;
-    if (type == BOAT) {
+    if (type == AXE) {
       sprite = Content.ITEMS[1][0];
     }
-    else if (type == AXE) {
+    else if (type == PICKAXE) {
       sprite = Content.ITEMS[1][1];
+    }
+    else if (type == BOAT) {
+      sprite = Content.ITEMS[1][2];
+    }
+    else if (type == KEY) {
+      sprite = Content.ITEMS[1][3];
     }
   }
   
   public void collected(Player p) {
+    if (type == AXE) {
+      p.gotAxe();
+    }
+    if (type == PICKAXE) {
+      p.gotPickaxe();
+    }
     if (type == BOAT) {
       p.gotBoat();
     }
-    if (type == AXE) {
-      p.gotAxe();
+    if (type == KEY) {
+      p.gotKey();
     }
   }
   
